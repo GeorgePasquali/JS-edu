@@ -1,2 +1,2 @@
 # JS-edu
-A repo for education purposes
+A repo for educational purposes
