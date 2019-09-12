@@ -4,14 +4,14 @@ function modifyArray(arr, startPosition, steps) {
     let itemsToReverse = [];
     let endPosition = startPosition + steps;
 
-    for(let i = startPosition; i < endPosition; i++) {
-        itemsToReverse.push(myArr[i]);
+    for(let i = startPosition; i <= endPosition; i++) {
+        itemsToReverse.push(arr[i]);
     }
     
     itemsToReverse.reverse();
 
     let counter = 0;
-    for(let j = startPosition; j < endPosition; j++) {
+    for(let j = startPosition; j <= endPosition; j++) {
         arr.splice(j, 1, itemsToReverse[counter++]);
     }
 
