@@ -63,8 +63,6 @@ let page = {
             return;
         }
 
-        
-
        for(let i = 0; i < fieldsNumber; i++) {
             let inputField = document.createElement("input");
             inputField.setAttribute("type", "number");
@@ -73,15 +71,13 @@ let page = {
             console.log("Input field created!");
 
             if(!form.contains(calculateButton)) {
-                fragment.appendChild(inputField);
-                fragment.appendChild(document.createElement("br"));
+                form.appendChild(inputField);
+                form.appendChild(document.createElement("br"));
            } else {
-                fragment.insertBefore(inputField, calculateButton);
-                fragment.insertBefore(document.createElement("br"), calculateButton);
+                form.insertBefore(inputField, calculateButton);
+                form.insertBefore(document.createElement("br"), calculateButton);
            }
        }
-
-       form.appendChild(fragment);
     },
 
     createButton: function() {
