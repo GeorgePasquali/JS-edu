@@ -46,6 +46,7 @@ let inputFieldsArray = [];
 let calculateButton = null;
 let resultDiv = null;
 let h3 = null;
+let fragment = document.createDocumentFragment();
 
 let page = {
     createForm: function() {
@@ -62,6 +63,8 @@ let page = {
             return;
         }
 
+        
+
        for(let i = 0; i < fieldsNumber; i++) {
             let inputField = document.createElement("input");
             inputField.setAttribute("type", "number");
@@ -70,13 +73,15 @@ let page = {
             console.log("Input field created!");
 
             if(!form.contains(calculateButton)) {
-                form.appendChild(inputField);
-                form.appendChild(document.createElement("br"));
+                fragment.appendChild(inputField);
+                fragment.appendChild(document.createElement("br"));
            } else {
-                form.insertBefore(inputField, calculateButton);
-                form.insertBefore(document.createElement("br"), calculateButton);
+                fragment.insertBefore(inputField, calculateButton);
+                fragment.insertBefore(document.createElement("br"), calculateButton);
            }
        }
+
+       form.appendChild(fragment);
     },
 
     createButton: function() {
