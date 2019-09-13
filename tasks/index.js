@@ -98,9 +98,10 @@ let page = {
     },
 
     calculateMultiplication: function() {
-        let areValiudNumbers = inputFieldsArray.filter((element) => {
-            console.log(element.value);
-            if(!isValidNumber(element.value)) {
+        let areValiudNumbers = inputFieldsArray.every((element) => {
+            let elementValue = Number(element.value);
+
+            if(elementValue == "" || !isValidNumber(elementValue)) {
                 return false;
             }
 
@@ -130,7 +131,7 @@ let page = {
 
 // Task 4
 function isValidNumber(param) {
-    if((typeof param != 'number') || !(isFinite(param))) {
+    if((typeof param != 'number') || !(isFinite(param)) || param == null) {
         return false;
     }
 
