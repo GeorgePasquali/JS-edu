@@ -1,9 +1,5 @@
 // Task 1
 function checkNumbers(firstNumber, secondNumber) {
-
-    console.log(firstNumber);
-    console.log(secondNumber);
-
     if(!isValidNumber(firstNumber) || !isValidNumber(secondNumber)) {
         console.log("Please provide 2 numbers");
         return;
@@ -41,12 +37,11 @@ function checkGuess() {
 
 // Task 3
 let div = document.getElementById("page");
-let form = null;
+let form;
 let inputFieldsArray = [];
-let calculateButton = null;
-let resultDiv = null;
-let h3 = null;
-let fragment = document.createDocumentFragment();
+let calculateButton;
+let resultDiv;
+let h3;
 
 let page = {
     createForm: function() {
@@ -57,53 +52,78 @@ let page = {
         }
     },
 
+    createLabel: function() {
+        let label = document.createElement("label");
+        label.textContent = "Please enter a number: ";
+        return label;
+    },
+
     createInputField: function(fieldsNumber) {
         if(!isValidNumber(fieldsNumber)) {
             console.log("Please enter a valid number as parameter");
             return;
         }
 
-       for(let i = 0; i < fieldsNumber; i++) {
+        let fragment = document.createDocumentFragment();
+
+        for(let i = 0; i < fieldsNumber; i++) {
             let inputField = document.createElement("input");
             inputField.setAttribute("type", "number");
-            inputField.setAttribute("placeholder", "Please enter a number");
             inputFieldsArray.push(inputField);
             console.log("Input field created!");
 
             if(!form.contains(calculateButton)) {
                 form.appendChild(inputField);
+                form.insertBefore(this.createLabel(), inputField);
                 form.appendChild(document.createElement("br"));
-           } else {
+            } else {
                 form.insertBefore(inputField, calculateButton);
+                form.insertBefore(this.createLabel(), inputField);
                 form.insertBefore(document.createElement("br"), calculateButton);
-           }
-       }
+            }
+        }
+
+        form.appendChild(fragment);
     },
 
     createButton: function() {
-       if(!form.contains(calculateButton)) {
-        calculateButton = document.createElement("input");
-        calculateButton.setAttribute("type", "button");
-        calculateButton.setAttribute("value", "Calculate");
-        calculateButton.addEventListener("click", this.calculateMultiplication);
-        form.appendChild(calculateButton);
-        console.log("Button created!");
+        if(!form.contains(calculateButton)) {
+            calculateButton = document.createElement("input");
+            calculateButton.setAttribute("type", "button");
+            calculateButton.setAttribute("value", "Calculate");
+            calculateButton.addEventListener("click", this.calculateMultiplication);
+            form.appendChild(calculateButton);
+            console.log("Button created!");
        }
     },
 
     calculateMultiplication: function() {
+        let areValiudNumbers = inputFieldsArray.filter((element) => {
+            console.log(element.value);
+            if(!isValidNumber(element.value)) {
+                return false;
+            }
+
+            return true;
+        });
+
+        if(!areValiudNumbers) {
+            alert("Please enter valid numbers");
+            return;
+        }
+
         let result = inputFieldsArray.reduce((res, elem) => {
             return res * elem.value;
         }, 1);
 
         resultDiv = document.getElementById("results");
+
         if(!resultDiv.contains(h3)) {
             h3 = document.createElement("h3");
-            h3.innerHTML = String(result);
+            h3.textContent = String(result);
             resultDiv.appendChild(h3);
-            console.log("h3 created!");
         } else {
-            h3.innerHTML = String(result);
+            h3.textContent = String(result);
         }
     }
 };
@@ -137,7 +157,10 @@ function modifyArray(arr, startPosition, steps) {
         return;
     }
 
-    console.log(possibleSteps);
+    if(!isArrayOfNumbers(arr)) {
+        console.log("All elements in the array must be valid numbers");
+        return;
+    }
 
     let itemsToReverse = [];
     for(let i = startPosition; i <= endPosition; i++) {
@@ -155,6 +178,23 @@ function modifyArray(arr, startPosition, steps) {
 }
 
 // Task 5
+function isArrayOfNumbers(arr) {
+    if(!Array.isArray(arr)) {
+        console.log("Please provide an array as parameter - isArrayOfNumbers");
+        return;
+    }
+
+    let valid = arr.every((element) => {
+        if(!isValidNumber(element)) {
+            return false;
+        }
+
+        return true;
+    });
+
+    return valid;
+}
+
 function checkArray(arr) {
 
     if(!Array.isArray(arr)) {
@@ -162,15 +202,7 @@ function checkArray(arr) {
         return;
     }
 
-    let isArrayOfNumbers = arr.every((element) => {
-        if((typeof element != 'number') || !(isFinite(element))) {
-            return false;
-        }
-
-        return true;
-    });
-
-    if(!isArrayOfNumbers) {
+    if(!isArrayOfNumbers(arr)) {
         console.log("All elements in the array must be valid numbers");
         return;
     }
