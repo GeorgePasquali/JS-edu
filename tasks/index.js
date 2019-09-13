@@ -38,8 +38,8 @@ function checkGuess() {
 // Task 3
 let page = {
     div: document.getElementById("page"),
-    inputsDiv: document.getElementById("inputs"),
-    resultDiv: document.getElementById("page"),
+    inputsDiv: undefined,
+    resultDiv: undefined,
     form: undefined,
     inputFieldsArray: [],
     labelCounter: 0,
@@ -47,7 +47,7 @@ let page = {
     h3: undefined,
 
     createForm: function() {
-        if(document.body.contains(this.div)) {
+        if(document.body.contains(document.getElementById("page"))) {
             if(!this.div.contains(this.form)) {
                 this.form = document.createElement("form");
                 this.div.appendChild(this.form);
@@ -77,7 +77,7 @@ let page = {
 
         let fragment = document.createDocumentFragment();
 
-        if(this.div.contains(this.form)) {
+        if(document.body.contains(this.div) && this.div.contains(this.form)) {
             for(let i = 0; i < fieldsNumber; i++) {
                 this.labelCounter++;
                 let labelText = "Number to multiply " + this.labelCounter + ": ";
@@ -90,7 +90,12 @@ let page = {
                 fragment.appendChild(document.createElement("br"));
             }
 
-            this.inputsDiv.appendChild(fragment);
+            if(this.div.contains(this.form)) {
+                this.inputsDiv = document.createElement("div");
+                this.inputsDiv.setAttribute("id", "inputs");
+                this.form.appendChild(this.inputsDiv);
+                this.inputsDiv.appendChild(fragment);
+            }
         } else {
             console.log("You need to create the form first");
         }
@@ -116,7 +121,6 @@ let page = {
     },
 
     calculateMultiplication: function() {
-        console.log(this);
         let areValiudNumbers = this.inputFieldsArray.every((element) => {
             let elementValue = Number(element.value);
 
@@ -136,14 +140,18 @@ let page = {
             return res * elem.value;
         }, 1);
 
-        this.resultDiv = document.getElementById("results");
+        if(this.div.contains(this.form)) {
+            this.resultDiv = document.createElement("div");
+            this.resultDiv.setAttribute("id", "results");
+            this.form.appendChild(this.resultDiv);
 
-        if(!this.resultDiv.contains(this.h3)) {
-            this.h3 = document.createElement("h3");
-            this.h3.textContent = String(result);
-            this.resultDiv.appendChild(this.h3);
-        } else {
-            this.h3.textContent = String(result);
+            if(!this.resultDiv.contains(this.h3)) {
+                this.h3 = document.createElement("h3");
+                this.h3.textContent = String(result);
+                this.resultDiv.appendChild(this.h3);
+            } else {
+                this.h3.textContent = String(result);
+            }
         }
     }  
 };
