@@ -36,29 +36,40 @@ function checkGuess() {
 }
 
 // Task 3
-let div = document.getElementById("page");
-let form;
-let inputFieldsArray = [];
-let calculateButton;
-let resultDiv;
-let h3;
-
 let page = {
+    div: document.getElementById("page"),
+    inputsDiv: document.getElementById("inputs"),
+    resultDiv: document.getElementById("page"),
+    form: undefined,
+    inputFieldsArray: [],
+    labelCounter: 0,
+    calculateButton: undefined,
+    h3: undefined,
+
     createForm: function() {
-        if(!div.contains(form)) {
-            form = document.createElement("form");
-            div.appendChild(form);
-            console.log("Form created!");
+        if(document.body.contains(this.div)) {
+            if(!this.div.contains(this.form)) {
+                this.form = document.createElement("form");
+                this.div.appendChild(this.form);
+                console.log("Form created!");
+            }
         }
     },
 
-    createLabel: function() {
+    createLabel: function(labelText) {
         let label = document.createElement("label");
-        label.textContent = "Please enter a number: ";
+        label.textContent = String(labelText);
         return label;
     },
 
-    createInputField: function(fieldsNumber) {
+    createInputField: function() {
+        let inputField = document.createElement("input");
+        inputField.setAttribute("type", "number");
+        this.inputFieldsArray.push(inputField);
+        return inputField;
+    },
+
+    addLabelsAndFields: function(fieldsNumber) {
         if(!isValidNumber(fieldsNumber)) {
             console.log("Please enter a valid number as parameter");
             return;
@@ -66,39 +77,47 @@ let page = {
 
         let fragment = document.createDocumentFragment();
 
-        for(let i = 0; i < fieldsNumber; i++) {
-            let inputField = document.createElement("input");
-            inputField.setAttribute("type", "number");
-            inputFieldsArray.push(inputField);
-            console.log("Input field created!");
+        if(this.div.contains(this.form)) {
+            for(let i = 0; i < fieldsNumber; i++) {
+                this.labelCounter++;
+                let labelText = "Number to multiply " + this.labelCounter + ": ";
+    
+                let label = this.createLabel(labelText);
+                let inputField = this.createInputField();
 
-            if(!form.contains(calculateButton)) {
-                form.appendChild(inputField);
-                form.insertBefore(this.createLabel(), inputField);
-                form.appendChild(document.createElement("br"));
-            } else {
-                form.insertBefore(inputField, calculateButton);
-                form.insertBefore(this.createLabel(), inputField);
-                form.insertBefore(document.createElement("br"), calculateButton);
+                fragment.appendChild(inputField);
+                fragment.insertBefore(label, inputField);
+                fragment.appendChild(document.createElement("br"));
             }
-        }
 
-        form.appendChild(fragment);
+            this.inputsDiv.appendChild(fragment);
+        } else {
+            console.log("You need to create the form first");
+        }
     },
 
     createButton: function() {
-        if(!form.contains(calculateButton)) {
-            calculateButton = document.createElement("input");
-            calculateButton.setAttribute("type", "button");
-            calculateButton.setAttribute("value", "Calculate");
-            calculateButton.addEventListener("click", this.calculateMultiplication);
-            form.appendChild(calculateButton);
-            console.log("Button created!");
-       }
+        this.calculateButton = document.createElement("input");
+        this.calculateButton.setAttribute("type", "button");
+        this.calculateButton.setAttribute("value", "Calculate");
+        this.calculateButton.addEventListener("click", this.calculateMultiplication.bind(this));
+        console.log("Button created!");
+    },
+
+    addButton: function() {
+        if(this.div.contains(this.form) && this.inputFieldsArray.length > 0) {
+            if(!this.form.contains(this.calculateButton)) {
+                this.createButton();
+                this.form.appendChild(this.calculateButton);
+            }
+        } else {
+            console.log("You need to create the form and the input fields first");
+        }
     },
 
     calculateMultiplication: function() {
-        let areValiudNumbers = inputFieldsArray.every((element) => {
+        console.log(this);
+        let areValiudNumbers = this.inputFieldsArray.every((element) => {
             let elementValue = Number(element.value);
 
             if(elementValue == "" || !isValidNumber(elementValue)) {
@@ -113,20 +132,20 @@ let page = {
             return;
         }
 
-        let result = inputFieldsArray.reduce((res, elem) => {
+        let result = this.inputFieldsArray.reduce((res, elem) => {
             return res * elem.value;
         }, 1);
 
-        resultDiv = document.getElementById("results");
+        this.resultDiv = document.getElementById("results");
 
-        if(!resultDiv.contains(h3)) {
-            h3 = document.createElement("h3");
-            h3.textContent = String(result);
-            resultDiv.appendChild(h3);
+        if(!this.resultDiv.contains(this.h3)) {
+            this.h3 = document.createElement("h3");
+            this.h3.textContent = String(result);
+            this.resultDiv.appendChild(this.h3);
         } else {
-            h3.textContent = String(result);
+            this.h3.textContent = String(result);
         }
-    }
+    }  
 };
 
 // Task 4
