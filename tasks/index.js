@@ -37,22 +37,26 @@ function checkGuess() {
 
 // Task 3
 let page = {
-    div: document.getElementById("page"),
-    inputsDiv: undefined,
-    resultDiv: undefined,
-    form: undefined,
+    div: null,
+    inputsDiv: null,
+    resultDiv: null,
+    form: null,
     inputFieldsArray: [],
     labelCounter: 0,
-    calculateButton: undefined,
-    h3: undefined,
+    calculateButton: null,
+    h3: null,
 
     createForm: function() {
-        if(document.body.contains(document.getElementById("page"))) {
-            if(!this.div.contains(this.form)) {
-                this.form = document.createElement("form");
-                this.div.appendChild(this.form);
-                console.log("Form created!");
-            }
+        if(!document.body.contains(document.getElementById("page"))) {
+            this.div = document.createElement("div");
+            this.div.setAttribute("id", "page");
+            document.body.appendChild(this.div);
+        }
+
+        if(!this.div.contains(this.form)) {
+            this.form = document.createElement("form");
+            this.div.appendChild(this.form);
+            console.log("Form created!");
         }
     },
 
@@ -75,9 +79,15 @@ let page = {
             return;
         }
 
-        let fragment = document.createDocumentFragment();
-
         if(document.body.contains(this.div) && this.div.contains(this.form)) {
+            if(!this.form.contains(document.getElementById("inputs"))) {
+                this.inputsDiv = document.createElement("div");
+                this.inputsDiv.setAttribute("id", "inputs");
+                this.form.appendChild(this.inputsDiv);
+            }
+
+            let fragment = document.createDocumentFragment();
+
             for(let i = 0; i < fieldsNumber; i++) {
                 this.labelCounter++;
                 let labelText = "Number to multiply " + this.labelCounter + ": ";
@@ -89,13 +99,14 @@ let page = {
                 fragment.insertBefore(label, inputField);
                 fragment.appendChild(document.createElement("br"));
             }
+            
+            this.inputsDiv.appendChild(fragment);
 
-            if(this.div.contains(this.form)) {
-                this.inputsDiv = document.createElement("div");
-                this.inputsDiv.setAttribute("id", "inputs");
-                this.form.appendChild(this.inputsDiv);
-                this.inputsDiv.appendChild(fragment);
+            if(this.form.contains(this.resultDiv) && this.resultDiv.contains(this.h3)) {
+                this.h3.textContent = "";
             }
+
+            console.log("Labels and input fields created!");
         } else {
             console.log("You need to create the form first");
         }
@@ -106,14 +117,14 @@ let page = {
         this.calculateButton.setAttribute("type", "button");
         this.calculateButton.setAttribute("value", "Calculate");
         this.calculateButton.addEventListener("click", this.calculateMultiplication.bind(this));
-        console.log("Button created!");
     },
 
     addButton: function() {
-        if(this.div.contains(this.form) && this.inputFieldsArray.length > 0) {
+        if(document.body.contains(this.div) && this.div.contains(this.form) && this.inputFieldsArray.length > 0) {
             if(!this.form.contains(this.calculateButton)) {
                 this.createButton();
                 this.form.appendChild(this.calculateButton);
+                console.log("Button created!");
             }
         } else {
             console.log("You need to create the form and the input fields first");
@@ -140,10 +151,12 @@ let page = {
             return res * elem.value;
         }, 1);
 
-        if(this.div.contains(this.form)) {
-            this.resultDiv = document.createElement("div");
-            this.resultDiv.setAttribute("id", "results");
-            this.form.appendChild(this.resultDiv);
+        if(document.body.contains(this.div) && this.div.contains(this.form)) {
+            if(!this.form.contains(this.resultDiv)) {
+                this.resultDiv = document.createElement("div");
+                this.resultDiv.setAttribute("id", "results");
+                this.form.appendChild(this.resultDiv);
+            }
 
             if(!this.resultDiv.contains(this.h3)) {
                 this.h3 = document.createElement("h3");
