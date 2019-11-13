@@ -29,7 +29,7 @@ const UpdateBookForm = () => {
         setState(prevState => ({ ...prevState, [name]: value }));
     };
 
-    const checkForm = () => {
+    const isValidForm = () => {
         const input_form = document.getElementById("update-form");
 
         if (input_form != null) {
@@ -63,7 +63,7 @@ const UpdateBookForm = () => {
     const submit = (event) => {
         event.preventDefault();
 
-        if (checkForm()) {
+        if (isValidForm()) {
             fetch("http://localhost:5000/books/update",
                 {
                     method: 'PUT',
@@ -72,10 +72,10 @@ const UpdateBookForm = () => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(book)
+                }).then(() => {
+                    store.dispatch(updateBook(book));
+                    clearState();
                 });
-
-            clearState();
-            store.dispatch(updateBook(book));
         } else {
             console.log("Something went wrong!");
         }

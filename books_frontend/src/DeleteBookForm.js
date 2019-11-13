@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { deleteBook } from './actions/index';
-import store from './store';
+import store from './store/index';
 import { checkInputs } from './helpFunctions';
 
-const DeleteBookForm = () => {
+const DeleteBookForm = (props) => {
 
     const [bookId, setId] = useState('');
     let idInput;
@@ -17,7 +17,7 @@ const DeleteBookForm = () => {
         setId(value);
     };
 
-    const checkForm = () => {
+    const isValidForm = () => {
         const input_form = document.getElementById("delete-form");
 
         if (input_form != null) {
@@ -33,10 +33,27 @@ const DeleteBookForm = () => {
         return false;
     }
 
+    const bookExists = () => {
+        let exists = false;
+
+        store.getState().books.forEach((element) => {
+            if (bookId == element.id) {
+                exists = true;
+            }
+        })
+
+        return exists;
+    }
+
     const submit = (event) => {
         event.preventDefault();
 
-        if (checkForm()) {
+        if (isValidForm()) {
+            if (!bookExists()) {
+                alert("Book doesn't exist!");
+                return;
+            }
+
             fetch("http://localhost:5000/books/delete/" + bookId,
                 {
                     method: 'DELETE',
@@ -44,10 +61,10 @@ const DeleteBookForm = () => {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
                     }
+                }).then(() => {
+                    store.dispatch(deleteBook(bookId));
+                    clearState();
                 });
-
-            clearState();
-            store.dispatch(deleteBook(bookId));
         } else {
             console.log("Something went wrong!");
         }

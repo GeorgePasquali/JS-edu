@@ -21,7 +21,7 @@ class Board extends React.Component {
 
   render() {
     return (
-      <div>
+      <div id="booksDiv">
         <React.Fragment>
           {this.props.books.map((currentBook, ind) => <Book book={currentBook} key={ind} />)}
         </React.Fragment>

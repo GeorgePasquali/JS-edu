@@ -28,7 +28,7 @@ const AddBookForm = () => {
         setState(prevState => ({ ...prevState, [name]: value }));
     };
 
-    const checkForm = () => {
+    const isValidForm = () => {
         const input_form = document.getElementById("add-form");
 
         if (input_form != null) {
@@ -57,10 +57,27 @@ const AddBookForm = () => {
         return false;
     }
 
+    const bookExists = () => {
+        let exists = false;
+
+        store.getState().books.forEach((element) => {
+            if (book.isbn === element.isbn) {
+                exists = true;
+            }
+        })
+
+        return exists;
+    }
+
     const submit = (event) => {
         event.preventDefault();
 
-        if (checkForm()) {
+        if (isValidForm()) {
+            if (bookExists()) {
+                alert("Book already exists!");
+                return;
+            }
+
             fetch("http://localhost:5000/books/create",
                 {
                     method: 'POST',
@@ -69,10 +86,10 @@ const AddBookForm = () => {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(book)
+                }).then(() => {
+                    store.dispatch(addBook(book));
+                    clearState();
                 });
-
-            clearState();
-            store.dispatch(addBook(book));
         } else {
             console.log("Something went wrong!");
         }
