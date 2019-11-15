@@ -43,16 +43,20 @@ const UpdateBookForm = () => {
             if (idInput != null && nameInput != null && authorInput != null && publisherInput != null && yearInput != null && isbnInput != null) {
 
                 if (checkInputs([bookId, bookName, bookAuthor, bookPublisher, bookYear, bookISBN])) {
-                    book = {
-                        id: bookId,
-                        name: bookName,
-                        author: bookAuthor,
-                        publisher: bookPublisher,
-                        year: bookYear,
-                        isbn: bookISBN
-                    }
+                    if (!isNaN(Number(bookId)) && !isNaN(Number(bookYear))) {
+                        book = {
+                            id: bookId,
+                            name: bookName,
+                            author: bookAuthor,
+                            publisher: bookPublisher,
+                            year: bookYear,
+                            isbn: bookISBN
+                        }
 
-                    return true;
+                        return true;
+                    } else {
+                        alert("Id and year must be numbers!");
+                    }
                 }
             }
         }
@@ -60,10 +64,27 @@ const UpdateBookForm = () => {
         return false;
     }
 
+    const bookExists = () => {
+        let exists = false;
+
+        store.getState().books.forEach((element) => {
+            if (book.id === element.id) {
+                exists = true;
+            }
+        })
+
+        return exists;
+    }
+
     const submit = (event) => {
         event.preventDefault();
 
         if (isValidForm()) {
+            if (!bookExists()) {
+                alert("Book with id = " + bookId + " doesn't exist!");
+                return;
+            }
+
             fetch("http://localhost:5000/books/update",
                 {
                     method: 'PUT',

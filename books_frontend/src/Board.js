@@ -25,7 +25,7 @@ class Board extends React.Component {
     return (
       <div id="booksDiv">
         <React.Fragment>
-          {this.props.books.map((currentBook, ind) => <Book book={currentBook} key={uuid.v4()} />)}
+          {this.props.books.map((currentBook) => <Book book={currentBook} key={uuid.v4()} />)}
         </React.Fragment>
       </div>
     )

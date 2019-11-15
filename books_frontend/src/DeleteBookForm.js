@@ -25,7 +25,11 @@ const DeleteBookForm = () => {
 
             if (idInput != null) {
                 if (checkInputs([bookId])) {
-                    return true;
+                    if (!isNaN(Number(bookId))) {
+                        return true;
+                    } else {
+                        alert("The id must be a number!");
+                    }
                 }
             }
         }
@@ -50,7 +54,7 @@ const DeleteBookForm = () => {
 
         if (isValidForm()) {
             if (!bookExists()) {
-                alert("Book doesn't exist!");
+                alert("Book with id = " + bookId + " doesn't exist!");
                 return;
             }
 

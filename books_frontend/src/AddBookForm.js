@@ -39,17 +39,20 @@ const AddBookForm = () => {
             isbnInput = document.getElementById("bookISBN");
 
             if (nameInput != null && authorInput != null && publisherInput != null && yearInput != null && isbnInput != null) {
-
                 if (checkInputs([bookName, bookAuthor, bookPublisher, bookYear, bookISBN])) {
-                    book = {
-                        name: bookName,
-                        author: bookAuthor,
-                        publisher: bookPublisher,
-                        year: bookYear,
-                        isbn: bookISBN
-                    }
+                    if (!isNaN(Number(bookYear))) {
+                        book = {
+                            name: bookName,
+                            author: bookAuthor,
+                            publisher: bookPublisher,
+                            year: bookYear,
+                            isbn: bookISBN
+                        }
 
-                    return true;
+                        return true;
+                    } else {
+                        alert("The year must be a number!");
+                    }
                 }
             }
         }
@@ -74,7 +77,7 @@ const AddBookForm = () => {
 
         if (isValidForm()) {
             if (bookExists()) {
-                alert("Book already exists!");
+                alert("Book with ISBN = " + bookISBN + " already exists!");
                 return;
             }
 
