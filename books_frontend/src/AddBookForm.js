@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { checkInputs } from './helpFunctions';
 import { addBook } from './actions/index';
-import store from './store';
+import store from './store/index';
 
 const initialState = {
     bookName: "",

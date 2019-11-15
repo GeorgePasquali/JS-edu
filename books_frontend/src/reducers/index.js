@@ -14,14 +14,15 @@ const booksReducer = (state = initialState, action) => {
     case ADD_BOOK:
       return Object.assign({}, state, {
         books: state.books.concat(action.book)
-      })
+      });
 
     case UPDATE_BOOK:
       let arrayUpdate = [...state.books]
-
-      var bookIndex = arrayUpdate.findIndex(element => element.id == action.book.bookId);
+      const bookIndex = arrayUpdate.findIndex(element => element.id == action.book.id);
       arrayUpdate[bookIndex] = action.book;
-
+      console.log(Object.assign({}, state, {
+        books: arrayUpdate
+      }));
       return Object.assign({}, state, {
         books: arrayUpdate
       })

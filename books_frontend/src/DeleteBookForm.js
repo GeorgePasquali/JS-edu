@@ -3,7 +3,7 @@ import { deleteBook } from './actions/index';
 import store from './store/index';
 import { checkInputs } from './helpFunctions';
 
-const DeleteBookForm = (props) => {
+const DeleteBookForm = () => {
 
     const [bookId, setId] = useState('');
     let idInput;
@@ -65,6 +65,9 @@ const DeleteBookForm = (props) => {
                     store.dispatch(deleteBook(bookId));
                     clearState();
                 });
+
+            store.dispatch(deleteBook(bookId));
+            clearState();
         } else {
             console.log("Something went wrong!");
         }

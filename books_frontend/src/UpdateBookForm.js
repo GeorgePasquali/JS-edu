@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { checkInputs } from './helpFunctions';
-import { updateBook, fetchBooks } from './actions/index';
-import store from './store';
+import { updateBook } from './actions/index';
+import store from './store/index';
 
 const initialState = {
     bookId: "",
@@ -73,6 +73,7 @@ const UpdateBookForm = () => {
                     },
                     body: JSON.stringify(book)
                 }).then(() => {
+                    console.log(book.id);
                     store.dispatch(updateBook(book));
                     clearState();
                 });

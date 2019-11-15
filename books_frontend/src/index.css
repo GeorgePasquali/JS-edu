@@ -45,7 +45,7 @@ form {
   justify-content: center;
 }
 
-#square-div {
+.square-div {
   margin: 60px;
   padding: 0px;
   border: 2px solid #000;

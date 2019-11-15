@@ -17,7 +17,7 @@ function App() {
             <DeleteBookForm />
           </React.Fragment>
         </div>
-        <div id="booksData">
+        <div>
           <Board />
         </div>
       </div>

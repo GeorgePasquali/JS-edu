@@ -2,6 +2,8 @@ import React from 'react';
 import Book from './Book';
 import { fetchBooks } from './actions/index';
 import { connect } from 'react-redux';
+import store from './store/index';
+import uuid from "uuid";
 
 class Board extends React.Component {
   componentDidMount() {
@@ -15,7 +17,7 @@ class Board extends React.Component {
       .then(res => res.json())
       .then(
         (result) => {
-          this.props.dispatch(fetchBooks(result));
+          store.dispatch(fetchBooks(result));
         });
   }
 
@@ -23,7 +25,7 @@ class Board extends React.Component {
     return (
       <div id="booksDiv">
         <React.Fragment>
-          {this.props.books.map((currentBook, ind) => <Book book={currentBook} key={ind} />)}
+          {this.props.books.map((currentBook, ind) => <Book book={currentBook} key={uuid.v4()} />)}
         </React.Fragment>
       </div>
     )
