@@ -20,9 +20,7 @@ const booksReducer = (state = initialState, action) => {
       let arrayUpdate = [...state.books]
       const bookIndex = arrayUpdate.findIndex(element => element.id == action.book.id);
       arrayUpdate[bookIndex] = action.book;
-      console.log(Object.assign({}, state, {
-        books: arrayUpdate
-      }));
+
       return Object.assign({}, state, {
         books: arrayUpdate
       })

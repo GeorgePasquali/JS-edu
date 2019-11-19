@@ -90,8 +90,6 @@ const AddBookForm = () => {
                     store.dispatch(addBook(book));
                     clearState();
                 });
-        } else {
-            console.log("Something went wrong!");
         }
     }
 
@@ -104,9 +102,9 @@ const AddBookForm = () => {
             <label>Book publisher: </label>
             <input type="text" id="bookPublisher" name="bookPublisher" value={bookPublisher} onChange={handleChange} required /> <br />
             <label>Book year: </label>
-            <input type="text" id="bookYear" name="bookYear" value={bookYear} onChange={handleChange} required /> <br />
+            <input type="number" id="bookYear" name="bookYear" value={bookYear} onChange={handleChange} min="1445" max="2019" required /> <br />
             <label>Book ISBN: </label>
-            <input type="text" id="bookISBN" name="bookISBN" value={bookISBN} onChange={handleChange} required /> <br />
+            <input type="text" id="bookISBN" name="bookISBN" value={bookISBN} onChange={handleChange} maxLength="13" pattern=".{13,13}" required title="13 characters required" /> <br />
             <button className="buttons">Add book</button>
         </form>
     )

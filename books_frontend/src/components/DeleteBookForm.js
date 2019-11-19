@@ -69,8 +69,6 @@ const DeleteBookForm = () => {
 
             store.dispatch(deleteBook(bookId));
             clearState();
-        } else {
-            console.log("Something went wrong!");
         }
     }
 
