@@ -64,7 +64,7 @@ const UpdateBookForm = () => {
         let exists = false;
 
         store.getState().books.forEach((element) => {
-            if (book.id === element.id) {
+            if (book.id == element.id) {
                 exists = true;
             }
         })
@@ -77,6 +77,7 @@ const UpdateBookForm = () => {
 
         if (isValidForm()) {
             if (!bookExists()) {
+                console.log("TEST: " + bookId);
                 alert("Book with id = " + bookId + " doesn't exist!");
                 return;
             }
