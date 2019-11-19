@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { checkInputs } from './helpFunctions';
-import { addBook } from './actions/index';
-import store from './store/index';
+import { addBook } from '../actions/index';
+import store from '../store/index';
 
 const initialState = {
     bookName: "",
@@ -39,20 +38,18 @@ const AddBookForm = () => {
             isbnInput = document.getElementById("bookISBN");
 
             if (nameInput != null && authorInput != null && publisherInput != null && yearInput != null && isbnInput != null) {
-                if (checkInputs([bookName, bookAuthor, bookPublisher, bookYear, bookISBN])) {
-                    if (!isNaN(Number(bookYear))) {
-                        book = {
-                            name: bookName,
-                            author: bookAuthor,
-                            publisher: bookPublisher,
-                            year: bookYear,
-                            isbn: bookISBN
-                        }
-
-                        return true;
-                    } else {
-                        alert("The year must be a number!");
+                if (!isNaN(Number(bookYear))) {
+                    book = {
+                        name: bookName,
+                        author: bookAuthor,
+                        publisher: bookPublisher,
+                        year: bookYear,
+                        isbn: bookISBN
                     }
+
+                    return true;
+                } else {
+                    alert("The year must be a number!");
                 }
             }
         }
@@ -101,15 +98,15 @@ const AddBookForm = () => {
     return (
         <form id="add-form" onSubmit={submit}>
             <label>Book name: </label>
-            <input type="text" id="bookName" name="bookName" value={bookName} onChange={handleChange} /> <br />
+            <input type="text" id="bookName" name="bookName" value={bookName} onChange={handleChange} required /> <br />
             <label>Book author: </label>
-            <input type="text" id="bookAuthor" name="bookAuthor" value={bookAuthor} onChange={handleChange} /> <br />
+            <input type="text" id="bookAuthor" name="bookAuthor" value={bookAuthor} onChange={handleChange} required /> <br />
             <label>Book publisher: </label>
-            <input type="text" id="bookPublisher" name="bookPublisher" value={bookPublisher} onChange={handleChange} /> <br />
+            <input type="text" id="bookPublisher" name="bookPublisher" value={bookPublisher} onChange={handleChange} required /> <br />
             <label>Book year: </label>
-            <input type="text" id="bookYear" name="bookYear" value={bookYear} onChange={handleChange} /> <br />
+            <input type="text" id="bookYear" name="bookYear" value={bookYear} onChange={handleChange} required /> <br />
             <label>Book ISBN: </label>
-            <input type="text" id="bookISBN" name="bookISBN" value={bookISBN} onChange={handleChange} /> <br />
+            <input type="text" id="bookISBN" name="bookISBN" value={bookISBN} onChange={handleChange} required /> <br />
             <button className="buttons">Add book</button>
         </form>
     )

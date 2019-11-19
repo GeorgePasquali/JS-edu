@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { deleteBook } from './actions/index';
-import store from './store/index';
-import { checkInputs } from './helpFunctions';
+import { deleteBook } from '../actions/index';
+import store from '../store/index';
 
 const DeleteBookForm = () => {
 
@@ -24,12 +23,10 @@ const DeleteBookForm = () => {
             idInput = document.getElementById("bookId");
 
             if (idInput != null) {
-                if (checkInputs([bookId])) {
-                    if (!isNaN(Number(bookId))) {
-                        return true;
-                    } else {
-                        alert("The id must be a number!");
-                    }
+                if (!isNaN(Number(bookId))) {
+                    return true;
+                } else {
+                    alert("The id must be a number!");
                 }
             }
         }
@@ -80,7 +77,7 @@ const DeleteBookForm = () => {
     return (
         <form id="delete-form" onSubmit={submit}>
             <label id="bookIDLabel">Book ID: </label>
-            <input type="text" id="bookId" name="bookId" value={bookId} onChange={handleChange} /> <br />
+            <input type="text" id="bookId" name="bookId" value={bookId} onChange={handleChange} required /> <br />
             <button style={{ marginRight: "100px" }} className="buttons">Delete book</button>
         </form>
     )

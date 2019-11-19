@@ -1,8 +1,8 @@
 import React from 'react';
 import Book from './Book';
-import { fetchBooks } from './actions/index';
+import { fetchBooks } from '../actions/index';
 import { connect } from 'react-redux';
-import store from './store/index';
+import store from '../store/index';
 import uuid from "uuid";
 
 class Board extends React.Component {

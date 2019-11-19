@@ -3,7 +3,7 @@ import AddBookForm from './AddBookForm';
 import UpdateBookForm from './UpdateBookForm';
 import DeleteBookForm from './DeleteBookForm';
 import Board from './Board';
-import store from './store/index';
+import store from '../store/index';
 import { Provider } from 'react-redux';
 
 function App() {
