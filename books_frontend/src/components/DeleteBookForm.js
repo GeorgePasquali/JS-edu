@@ -75,7 +75,7 @@ const DeleteBookForm = () => {
     return (
         <form id="delete-form" onSubmit={submit}>
             <label id="bookIDLabel">Book ID: </label>
-            <input type="text" id="bookId" name="bookId" value={bookId} onChange={handleChange} required /> <br />
+            <input type="number" id="bookId" name="bookId" value={bookId} onChange={handleChange} min="1" required /> <br />
             <button style={{ marginRight: "100px" }} className="buttons">Delete book</button>
         </form>
     )

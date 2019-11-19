@@ -99,17 +99,17 @@ const UpdateBookForm = () => {
     return (
         <form id="update-form" onSubmit={submit}>
             <label>Book id: </label>
-            <input type="text" id="bookId" name="bookId" value={bookId} onChange={handleChange} required /> <br />
+            <input type="number" id="bookId" name="bookId" value={bookId} onChange={handleChange} min="1" required /> <br />
             <label>Book name: </label>
-            <input type="text" id="bookName" name="bookName" value={bookName} onChange={handleChange} required /> <br />
+            <input type="text" id="bookName" name="bookName" value={bookName} onChange={handleChange} pattern="[A-Za-z]+" required title="Only characters allowed" /> <br />
             <label>Book author: </label>
-            <input type="text" id="bookAuthor" name="bookAuthor" value={bookAuthor} onChange={handleChange} required /> <br />
+            <input type="text" id="bookAuthor" name="bookAuthor" value={bookAuthor} onChange={handleChange} pattern="[A-Za-z]+" required title="Only characters allowed" /> <br />
             <label>Book publisher: </label>
-            <input type="text" id="bookPublisher" name="bookPublisher" value={bookPublisher} onChange={handleChange} required /> <br />
+            <input type="text" id="bookPublisher" name="bookPublisher" value={bookPublisher} onChange={handleChange} pattern="[A-Za-z]+" required title="Only characters allowed" /> <br />
             <label>Book year: </label>
             <input type="number" id="bookYear" name="bookYear" value={bookYear} onChange={handleChange} min="1445" max="2019" required /> <br />
             <label>Book ISBN: </label>
-            <input type="text" id="bookISBN" name="bookISBN" value={bookISBN} onChange={handleChange} maxLength="13" pattern=".{13,13}" required title="13 characters required" /> <br />
+            <input type="text" id="bookISBN" name="bookISBN" value={bookISBN} onChange={handleChange} maxLength="13" pattern="[0-9]{13}" required title="ISBN length must be 13 (only numbers allowed)" /> <br />
             <button className="buttons">Update book</button>
         </form>
     )
