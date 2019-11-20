@@ -9,7 +9,6 @@ let createBookSchema = Joi.object().keys({
 });
 
 let updateBookSchema = Joi.object().keys({
-    id: Joi.number().positive().required(),
     name: Joi.string().required(),
     author: Joi.string().required(),
     isbn: Joi.string().length(13).required(),
@@ -18,7 +17,7 @@ let updateBookSchema = Joi.object().keys({
 });
 
 let deleteBookSchema = Joi.object().keys({
-    id: Joi.number().positive().required()
+    isbn: Joi.string().length(13).required(),
 });
 
 module.exports = {

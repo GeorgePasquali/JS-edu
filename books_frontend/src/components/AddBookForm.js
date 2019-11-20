@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { addBook } from '../actions/index';
+import { bookExists } from '../utils'
 import store from '../store/index';
 
 const initialState = {
@@ -38,42 +39,26 @@ const AddBookForm = () => {
             isbnInput = document.getElementById("bookISBN");
 
             if (nameInput != null && authorInput != null && publisherInput != null && yearInput != null && isbnInput != null) {
-                if (!isNaN(Number(bookYear))) {
-                    book = {
-                        name: bookName,
-                        author: bookAuthor,
-                        publisher: bookPublisher,
-                        year: bookYear,
-                        isbn: bookISBN
-                    }
-
-                    return true;
-                } else {
-                    alert("The year must be a number!");
+                book = {
+                    name: bookName,
+                    author: bookAuthor,
+                    publisher: bookPublisher,
+                    year: bookYear,
+                    isbn: bookISBN
                 }
+
+                return true;
             }
         }
 
         return false;
     }
 
-    const bookExists = () => {
-        let exists = false;
-
-        store.getState().books.forEach((element) => {
-            if (book.isbn === element.isbn) {
-                exists = true;
-            }
-        })
-
-        return exists;
-    }
-
     const submit = (event) => {
         event.preventDefault();
 
         if (isValidForm()) {
-            if (bookExists()) {
+            if (bookExists(book.isbn)) {
                 alert("Book with ISBN = " + bookISBN + " already exists!");
                 return;
             }
@@ -102,7 +87,7 @@ const AddBookForm = () => {
             <label>Book publisher: </label>
             <input type="text" id="bookPublisher" name="bookPublisher" value={bookPublisher} onChange={handleChange} pattern="[A-Za-z]+" required title="Only characters allowed" /> <br />
             <label>Book year: </label>
-            <input type="number" id="bookYear" name="bookYear" value={bookYear} onChange={handleChange} min="1445" max="2019" required /> <br />
+            <input type="number" id="bookYear" name="bookYear" value={bookYear} onChange={handleChange} min="1445" max="2019" required title="Year must be between 1445 and 2019" /> <br />
             <label>Book ISBN: </label>
             <input type="text" id="bookISBN" name="bookISBN" value={bookISBN} onChange={handleChange} maxLength="13" pattern="[0-9]{13}" required title="ISBN length must be 13 (only numbers allowed)" /> <br />
             <button className="buttons">Add book</button>

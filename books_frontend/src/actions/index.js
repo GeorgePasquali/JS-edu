@@ -15,7 +15,7 @@ export const updateBook = bookToUpdate => ({
   book: bookToUpdate
 })
 
-export const deleteBook = bookId => ({
+export const deleteBook = bookISBN => ({
   type: DELETE_BOOK,
-  bookId: bookId
+  bookISBN: bookISBN
 })

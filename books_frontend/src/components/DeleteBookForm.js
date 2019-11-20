@@ -1,61 +1,46 @@
 import React, { useState } from 'react';
 import { deleteBook } from '../actions/index';
+import { bookExists } from '../utils'
 import store from '../store/index';
 
 const DeleteBookForm = () => {
 
-    const [bookId, setId] = useState('');
-    let idInput;
+    const [bookISBN, setISBN] = useState('');
+    let isbnInput;
 
     const clearState = () => {
-        setId('');
+        setISBN('');
     };
 
     const handleChange = e => {
         const { value } = e.target;
-        setId(value);
+        setISBN(value);
     };
 
     const isValidForm = () => {
         const input_form = document.getElementById("delete-form");
 
         if (input_form != null) {
-            idInput = document.getElementById("bookId");
+            isbnInput = document.getElementById("bookISBN");
 
-            if (idInput != null) {
-                if (!isNaN(Number(bookId))) {
-                    return true;
-                } else {
-                    alert("The id must be a number!");
-                }
+            if (isbnInput != null) {
+                return true;
             }
         }
 
         return false;
     }
 
-    const bookExists = () => {
-        let exists = false;
-
-        store.getState().books.forEach((element) => {
-            if (bookId == element.id) {
-                exists = true;
-            }
-        })
-
-        return exists;
-    }
-
     const submit = (event) => {
         event.preventDefault();
 
         if (isValidForm()) {
-            if (!bookExists()) {
-                alert("Book with id = " + bookId + " doesn't exist!");
+            if (!bookExists(bookISBN)) {
+                alert("Book with ISBN = " + bookISBN + " doesn't exist!");
                 return;
             }
 
-            fetch("http://localhost:5000/books/delete/" + bookId,
+            fetch("http://localhost:5000/books/delete/" + bookISBN,
                 {
                     method: 'DELETE',
                     headers: {
@@ -63,19 +48,19 @@ const DeleteBookForm = () => {
                         'Content-Type': 'application/json',
                     }
                 }).then(() => {
-                    store.dispatch(deleteBook(bookId));
+                    store.dispatch(deleteBook(bookISBN));
                     clearState();
                 });
 
-            store.dispatch(deleteBook(bookId));
+            store.dispatch(deleteBook(bookISBN));
             clearState();
         }
     }
 
     return (
         <form id="delete-form" onSubmit={submit}>
-            <label id="bookIDLabel">Book ID: </label>
-            <input type="number" id="bookId" name="bookId" value={bookId} onChange={handleChange} min="1" required /> <br />
+            <label id="bookISBNLabel">Book ISBN: </label>
+            <input type="number" id="bookISBN" name="bookISBN" value={bookISBN} onChange={handleChange} min="1" required /> <br />
             <button style={{ marginRight: "100px" }} className="buttons">Delete book</button>
         </form>
     )

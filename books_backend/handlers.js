@@ -38,7 +38,7 @@ let updateBook = async function (req, h) {
         .input('isbn', sql.NVarChar, req.payload.isbn)
         .input('year', sql.Int, req.payload.year)
         .input('publisher', sql.NVarChar, req.payload.publisher)
-        .query(`UPDATE dbo.Book SET name = @name, author = @author, isbn = @isbn, year = @year, publisher = @publisher OUTPUT INSERTED.* WHERE id = @id`);
+        .query(`UPDATE dbo.Book SET name = @name, author = @author, isbn = @isbn, year = @year, publisher = @publisher OUTPUT INSERTED.* WHERE isbn = @isbn`);
 
     return h.response(result.recordset).code(200);
 }
@@ -46,8 +46,8 @@ let updateBook = async function (req, h) {
 let deleteBook = async function (req, h) {
     const conn = await connectionPool;
     await conn.request()
-        .input('id', sql.Int, req.params.id)
-        .query(`DELETE FROM dbo.Book WHERE id = @id`);
+        .input('isbn', sql.NVarChar, req.params.isbn)
+        .query(`DELETE FROM dbo.Book WHERE isbn = @isbn`);
 
     return h.response().code(204);
 }

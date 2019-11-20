@@ -29,7 +29,7 @@ let routes = [
     },
     {
         method: 'DELETE',
-        path: '/books/delete/{id}',
+        path: '/books/delete/{isbn}',
         handler: handlers.deleteBook,
         options: {
             validate: {

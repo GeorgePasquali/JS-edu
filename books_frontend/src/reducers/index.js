@@ -18,7 +18,7 @@ const booksReducer = (state = initialState, action) => {
 
     case UPDATE_BOOK:
       let arrayUpdate = [...state.books]
-      const bookIndex = arrayUpdate.findIndex(element => element.id == action.book.id);
+      const bookIndex = arrayUpdate.findIndex(element => element.isbn == action.book.isbn);
       arrayUpdate[bookIndex] = action.book;
 
       return Object.assign({}, state, {
@@ -27,7 +27,7 @@ const booksReducer = (state = initialState, action) => {
 
     case DELETE_BOOK:
       return Object.assign({}, state, {
-        books: state.books.filter((element, ind) => element.id != action.bookId)
+        books: state.books.filter((element, ind) => element.isbn != action.bookISBN)
       })
 
     default:
